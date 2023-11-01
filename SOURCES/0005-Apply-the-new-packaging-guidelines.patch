@@ -1,0 +1,46 @@
+From c5e51a8e4a6d36dc5550a5d5032427a9a2d2622c Mon Sep 17 00:00:00 2001
+From: Rafal Luzynski <digitalfreak@lingonborough.com>
+Date: Thu, 26 Apr 2018 23:21:44 +0200
+Subject: [PATCH] Apply the new packaging guidelines
+
+Change appdata location according to the current guidelines: it should
+be %{_datadir}/metainfo directory rather than %{_datadir}/appdata.
+
+Remove "Group:" tag according to the current guidelines.
+
+Closes: #185
+---
+ gnome-abrt.spec.in | 7 +++++--
+ src/Makefile.am    | 2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/Makefile.in b/src/Makefile.in
+index bb0f07f..e61847a 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -395,7 +395,7 @@ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ SUBDIRS = gnome_abrt
+ bin_SCRIPTS = gnome-abrt
+-appdatadir = $(datadir)/appdata
++appdatadir = $(datadir)/metainfo
+ app_data_in_files = gnome-abrt.appdata.xml.in
+ appdata_DATA = $(app_data_in_files:.xml.in=.xml)
+ desktopdir = $(datadir)/applications
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 2b124f5..ccb02a1 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -4,7 +4,7 @@ bin_SCRIPTS=gnome-abrt
+ 
+ @INTLTOOL_XML_RULE@
+ 
+-appdatadir = $(datadir)/appdata
++appdatadir = $(datadir)/metainfo
+ app_data_in_files = gnome-abrt.appdata.xml.in
+ appdata_DATA = $(app_data_in_files:.xml.in=.xml)
+ 
+-- 
+2.17.1
+

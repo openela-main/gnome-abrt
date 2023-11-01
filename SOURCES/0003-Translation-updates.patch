@@ -1,0 +1,141 @@
+From 24e89bdda16fd2a315072449b0577093cc945bf6 Mon Sep 17 00:00:00 2001
+From: Matej Habrnal <mhabrnal@redhat.com>
+Date: Wed, 7 Feb 2018 10:39:17 +0100
+Subject: [PATCH] Translation updates
+
+Signed-off-by: Matej Habrnal <mhabrnal@redhat.com>
+---
+ po/cs.po    | 17 +++++++++--------
+ po/pt_BR.po |  9 +++++----
+ po/ru.po    |  4 ++--
+ 3 files changed, 16 insertions(+), 14 deletions(-)
+
+diff --git a/po/cs.po b/po/cs.po
+index 81619ab..f544adb 100644
+--- a/po/cs.po
++++ b/po/cs.po
+@@ -18,7 +18,7 @@ msgstr ""
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"PO-Revision-Date: 2017-09-05 12:10-0400\n"
++"PO-Revision-Date: 2017-12-14 11:16-0500\n"
+ "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
+ "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
+ "Language: cs\n"
+@@ -53,7 +53,7 @@ msgstr "_Ukončit"
+ #: ../src/gnome-abrt:350 ../src/gnome-abrt.desktop.in.h:1
+ #: ../src/gnome_abrt/views.py:294
+ msgid "Problem Reporting"
+-msgstr "Hlášení problemů"
++msgstr "Hlášení problémů"
+ 
+ #: ../src/gnome-abrt.desktop.in.h:2
+ msgid "View and report application crashes"
+@@ -218,7 +218,7 @@ msgstr "Reportováno"
+ 
+ #: ../src/gnome_abrt/oops.glade.h:22
+ msgid "No problems detected!"
+-msgstr "Žádné problémy nedetekovány!"
++msgstr "Nedetekovány žádné problémy!"
+ 
+ #: ../src/gnome_abrt/oops.glade.h:23
+ msgid "No source selected!"
+@@ -340,7 +340,7 @@ msgstr "Fatální selhání systému"
+ 
+ #: ../src/gnome_abrt/views.py:868
+ msgid "The system has encountered a problem and could not continue."
+-msgstr "Systém zaznamenal chybu a přestal pracovat"
++msgstr "Systém zaznamenal chybu a přestal pracovat."
+ 
+ #. Translators: If Application's name is unknown,
+ #. display neutral header
+@@ -364,7 +364,7 @@ msgstr "{0} neočekávaně skončil"
+ 
+ #: ../src/gnome_abrt/views.py:889
+ msgid "The application encountered a problem and could not continue."
+-msgstr "Aplikace zaznamenala chybu a přestala pracovat"
++msgstr "Aplikace zaznamenala chybu a přestala pracovat."
+ 
+ #. Translators: package name not available
+ #. Translators: package version not available
+@@ -388,9 +388,10 @@ msgid ""
+ "that. Thank you."
+ msgstr ""
+ "Tento problém byl již nahlášen, ale dosud nebylo vytvořeno hlášení v "
+-"<i>Bugzille</i>. Naši vývojáři můžou potřebovat více informací, aby mohli "
+-"vyřešit tento problém. Zvažte prosím také nahlášení do Bugzilly, kde můžete "
+-"více informací poskytnout. Děkujeme."
++"<i>Bugzille</i>. Naši vývojáři mohou potřebovat více informací, aby mohli "
++"vyřešit tento problém.\n"
++"Zvažte prosím také <b>nahlášení</b> do Bugzilly, kde můžete více informací "
++"poskytnout. Děkujeme."
+ 
+ #. Translators: Displayed after 'Reported' if a problem
+ #. has been reported but we don't know where and when.
+diff --git a/po/pt_BR.po b/po/pt_BR.po
+index bad9664..a15a908 100644
+--- a/po/pt_BR.po
++++ b/po/pt_BR.po
+@@ -8,6 +8,7 @@
+ # Rafael Ferreira <rafael.f.f1@gmail.com>, 2012
+ # Ricardo Gyorfy <rgyorfy@redhat.com>, 2011
+ # Daniel Lara <danniel@fedoraproject.org>, 2016. #zanata
++# Fabrício de Lima Farias <fabricio_fariaz@hotmail.com>, 2018. #zanata
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: PACKAGE VERSION\n"
+@@ -16,8 +17,8 @@ msgstr ""
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"PO-Revision-Date: 2016-09-06 09:08-0400\n"
+-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
++"PO-Revision-Date: 2018-01-30 07:10-0500\n"
++"Last-Translator: Marco Aurélio Krause <ouesten@me.com>\n"
+ "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
+ "gnome-abrt/language/pt_BR/)\n"
+ "Language: pt-BR\n"
+@@ -155,7 +156,7 @@ msgstr "Envia problema selecionado"
+ 
+ #: ../src/gnome_abrt/oops.glade.h:5
+ msgid "Analy_ze"
+-msgstr "Ana_lizar"
++msgstr "Analizar"
+ 
+ #: ../src/gnome_abrt/oops.glade.h:6
+ msgid "Open selected problem for analysis"
+@@ -171,7 +172,7 @@ msgstr "Mostrar detalhes técnicos"
+ 
+ #: ../src/gnome_abrt/oops.glade.h:9
+ msgid "_All problems"
+-msgstr "Todos os problem_as"
++msgstr "Todos os problemas"
+ 
+ #: ../src/gnome_abrt/oops.glade.h:10
+ msgid "Show all known problems from all system users"
+diff --git a/po/ru.po b/po/ru.po
+index 6b90bc7..85efeea 100644
+--- a/po/ru.po
++++ b/po/ru.po
+@@ -15,7 +15,7 @@ msgstr ""
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"PO-Revision-Date: 2017-11-10 09:57-0500\n"
++"PO-Revision-Date: 2017-11-29 06:18-0500\n"
+ "Last-Translator: yuliya <ypoyarko@redhat.com>\n"
+ "Language-Team: Russian (http://www.transifex.com/projects/p/gnome-abrt/"
+ "language/ru/)\n"
+@@ -285,7 +285,7 @@ msgstr[2] "{0:d} лет назад"
+ #: ../src/gnome_abrt/tools.py:115
+ #, python-brace-format
+ msgid "Failed to find icon '{0}'"
+-msgstr "Значок «'{0}'» не найден."
++msgstr "Значок «{0}» не найден."
+ 
+ #: ../src/gnome_abrt/tools.py:122
+ #, python-brace-format
+-- 
+2.17.1
+
