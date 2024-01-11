@@ -1,0 +1,39 @@
+From 36d381601a9823ed2c33e306959b974a050215c3 Mon Sep 17 00:00:00 2001
+From: Matej Marusak <mmarusak@redhat.com>
+Date: Fri, 13 Jul 2018 09:27:28 +0200
+Subject: [PATCH] Fix incorrect parsing of reported_to file
+
+Fixes BZ#1600809
+
+Bug was introduced in commit 99578c5.
+Adding lazy operator (?) makes sure, that first occurrences are found.
+This did not work on following item:
+    Bugzilla: URL=https://bugzilla.redhat.com/show_bug.cgi?id=123456
+Without this fix, it was split as:
+    - Bugzilla: URL=https
+    - //bugzilla.redhat.com/show_bug.cgi
+    - id=123456
+
+With this fix first ':' and '=' are found correctly.
+
+Signed-off-by: Matej Marusak <mmarusak@redhat.com>
+---
+ src/gnome_abrt/problems.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gnome_abrt/problems.py b/src/gnome_abrt/problems.py
+index 05a3fa7..d9f579a 100644
+--- a/src/gnome_abrt/problems.py
++++ b/src/gnome_abrt/problems.py
+@@ -280,7 +280,7 @@ class Problem(object):
+ 
+     def get_submission(self):
+         if not self.submission:
+-            reg = re.compile(r'^(?P<pfx>.*):\s*(?P<typ>\S*)=(?P<data>.*)')
++            reg = re.compile(r'^(?P<pfx>.*?):\s*(?P<typ>\S*?)=(?P<data>.*)')
+             self.submission = []
+             if self['reported_to']:
+                 # Most common type of line in reported_to file
+-- 
+2.17.1
+

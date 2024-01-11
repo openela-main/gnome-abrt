@@ -1,0 +1,246 @@
+From 301a5ca79ce3d738c08e4af0df686d16f5c95df3 Mon Sep 17 00:00:00 2001
+From: Martin Kutlak <mkutlak@redhat.com>
+Date: Tue, 17 Jul 2018 12:49:34 +0200
+Subject: [PATCH] pylint(R0205): Remove explicit object inheritance
+
+Classes in Python3 inherit from the object implicitly.
+
+Signed-off-by: Martin Kutlak <mkutlak@redhat.com>
+---
+ src/gnome-abrt                       |  4 ++--
+ src/gnome_abrt/application.py        |  2 +-
+ src/gnome_abrt/config.py             |  2 +-
+ src/gnome_abrt/controller.py.in      |  2 +-
+ src/gnome_abrt/dbus_problems.py      |  4 ++--
+ src/gnome_abrt/directory_problems.py |  6 +++---
+ src/gnome_abrt/problems.py           |  8 ++++----
+ src/gnome_abrt/url/gliburltitle.py   |  4 ++--
+ src/gnome_abrt/views.py              | 10 +++++-----
+ 9 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/src/gnome-abrt b/src/gnome-abrt
+index a99aecf..f193c96 100755
+--- a/src/gnome-abrt
++++ b/src/gnome-abrt
+@@ -87,7 +87,7 @@ GNOME_ABRT_URL_POOL_CAPACITY = 10
+ 
+ 
+ # because of https://bugzilla.gnome.org/show_bug.cgi?id=682331
+-class GtkAppDBUSImpl(object):
++class GtkAppDBUSImpl:
+     """A proxy for primary application
+     """
+ 
+@@ -107,7 +107,7 @@ class GtkAppDBUSImpl(object):
+             """DBus service method accepting a new command line arguments
+             """
+ 
+-            class Arguments(object):
++            class Arguments:
+                 """Adapter for Gtk class
+                 """
+ 
+diff --git a/src/gnome_abrt/application.py b/src/gnome_abrt/application.py
+index 927262a..40a6f0c 100644
+--- a/src/gnome_abrt/application.py
++++ b/src/gnome_abrt/application.py
+@@ -18,7 +18,7 @@
+ import os
+ from gnome_abrt import wrappers
+ 
+-class Application(object):
++class Application:
+ 
+     def __init__(self, executable, name=None, icon=None):
+         self.executable = executable or "N/A"
+diff --git a/src/gnome_abrt/config.py b/src/gnome_abrt/config.py
+index 94aea46..e5662de 100644
+--- a/src/gnome_abrt/config.py
++++ b/src/gnome_abrt/config.py
+@@ -29,7 +29,7 @@ def singleton(cls):
+     return getinstance
+ 
+ @singleton
+-class Configuration(object):
++class Configuration:
+ 
+     def __init__(self):
+         self.options = {}
+diff --git a/src/gnome_abrt/controller.py.in b/src/gnome_abrt/controller.py.in
+index 86db419..c2991ed 100644
+--- a/src/gnome_abrt/controller.py.in
++++ b/src/gnome_abrt/controller.py.in
+@@ -24,7 +24,7 @@ import traceback
+ from gnome_abrt import errors
+ from gnome_abrt.l10n import _
+ 
+-class Controller(object):
++class Controller:
+ 
+     def __init__(self, sources, sigchld_assign=None):
+         self.sources = sources
+diff --git a/src/gnome_abrt/dbus_problems.py b/src/gnome_abrt/dbus_problems.py
+index d6574aa..4c584e7 100644
+--- a/src/gnome_abrt/dbus_problems.py
++++ b/src/gnome_abrt/dbus_problems.py
+@@ -40,7 +40,7 @@ def get_foreign_problems_source(mainloop=None):
+ 
+ class DBusProblemSource(problems.CachedSource):
+ 
+-    class Driver(object):
++    class Driver:
+         """Handles differences in behaviour while working with different sets
+         of problems obtained from D-Bus service.
+         """
+@@ -198,7 +198,7 @@ class StandardProblems(DBusProblemSource.Driver):
+     def __init__(self, source):
+         super(StandardProblems, self).__init__(source)
+ 
+-        class ConfigObserver(object):
++        class ConfigObserver:
+             def __init__(self, source):
+                 self._source = source
+ 
+diff --git a/src/gnome_abrt/directory_problems.py b/src/gnome_abrt/directory_problems.py
+index 3ec7fe5..96ddc72 100644
+--- a/src/gnome_abrt/directory_problems.py
++++ b/src/gnome_abrt/directory_problems.py
+@@ -150,7 +150,7 @@ class INOTIFYSourceHandler(ProcessEvent):
+                             .format(ex))
+ 
+ 
+-class INOTIFYWatcher(object):
++class INOTIFYWatcher:
+ 
+     def __init__(self, source, directory, context):
+         # context is the instance variable because
+@@ -219,7 +219,7 @@ _("You have probably reached inotify's limit on the number of watches in '{0}'."
+ "about changes in problem data happening outside of this application. This "
+ "event do not affect any other functionality.").format(self._directory))
+ 
+-class NotInitializedDirectorySource(object):
++class NotInitializedDirectorySource:
+ 
+     def __init__(self, parent):
+         self._parent = parent
+@@ -245,7 +245,7 @@ class NotInitializedDirectorySource(object):
+         return True
+ 
+ 
+-class InitializedDirectoryProblemSource(object):
++class InitializedDirectoryProblemSource:
+ 
+     def __init__(self, parent, directory, context=None):
+         self._parent = parent
+diff --git a/src/gnome_abrt/problems.py b/src/gnome_abrt/problems.py
+index d9f579a..5285394 100644
+--- a/src/gnome_abrt/problems.py
++++ b/src/gnome_abrt/problems.py
+@@ -26,7 +26,7 @@ from gnome_abrt.errors import (InvalidProblem,
+                                UnavailableSource)
+ from gnome_abrt.l10n import _
+ 
+-class ProblemSource(object):
++class ProblemSource:
+     NEW_PROBLEM = 0
+     DELETED_PROBLEM = 1
+     CHANGED_PROBLEM = 2
+@@ -64,13 +64,13 @@ class ProblemSource(object):
+     def refresh(self):
+         pass
+ 
+-class Problem(object):
++class Problem:
+     INITIAL_ELEMENTS = ['component', 'executable', 'cmdline', 'count', 'type',
+                         'last_occurrence', 'time', 'reason', 'pkg_arch',
+                         'pkg_epoch', 'pkg_name', 'pkg_release', 'pkg_version',
+                         'environ', 'pid']
+ 
+-    class Submission(object):
++    class Submission:
+         URL = "URL"
+         MSG = "MSG"
+         BTHASH = "BTHASH"
+@@ -319,7 +319,7 @@ class MultipleSources(ProblemSource):
+ 
+         self.sources = sources
+ 
+-        class SourceObserver(object):
++        class SourceObserver:
+             def __init__(self, parent):
+                 self.parent = parent
+ 
+diff --git a/src/gnome_abrt/url/gliburltitle.py b/src/gnome_abrt/url/gliburltitle.py
+index 44c7a6c..e4cc0f9 100644
+--- a/src/gnome_abrt/url/gliburltitle.py
++++ b/src/gnome_abrt/url/gliburltitle.py
+@@ -82,7 +82,7 @@ class GetURLTitleThreadSource(GLib.Source):
+         pass
+ 
+ 
+-class GetURLTitleSourcePool(object):
++class GetURLTitleSourcePool:
+     """Pool for reducing number of running threads at time
+     """
+ 
+@@ -115,7 +115,7 @@ class GetURLTitleSourcePool(object):
+                 self._start_resolving(url, readycallback, userdata)
+ 
+ 
+-class GetURLTitleSourceCache(object):
++class GetURLTitleSourceCache:
+     """Asynchronous cache for URL titles
+     """
+ 
+diff --git a/src/gnome_abrt/views.py b/src/gnome_abrt/views.py
+index 1b62515..a7eabb0 100644
+--- a/src/gnome_abrt/views.py
++++ b/src/gnome_abrt/views.py
+@@ -55,7 +55,7 @@ def list_box_row_set_values(list_box_row, values):
+     return list_box_row.get_children()[0].set_values(values)
+ 
+ 
+-class ProblemsFilter(object):
++class ProblemsFilter:
+ 
+     def __init__(self, list_box, list_box_selection):
+         self._pattern = ""
+@@ -201,7 +201,7 @@ def handle_problem_and_source_errors(func):
+     return wrapper_for_instance_function
+ 
+ 
+-class ListBoxSelection(object):
++class ListBoxSelection:
+ 
+     def __init__(self, list_box, selection_changed):
+         self._lb = list_box
+@@ -288,7 +288,7 @@ class OopsWindow(Gtk.ApplicationWindow):
+ 
+     _TITLE = _("Problem Reporting")
+ 
+-    class OopsGtkBuilder(object):
++    class OopsGtkBuilder:
+         def __init__(self):
+             builder = None
+             # try to load the glade from git at first step
+@@ -412,7 +412,7 @@ class OopsWindow(Gtk.ApplicationWindow):
+             return obj
+ 
+ 
+-    class SourceObserver(object):
++    class SourceObserver:
+         def __init__(self, wnd):
+             self.wnd = wnd
+             self._enabled = True
+@@ -443,7 +443,7 @@ class OopsWindow(Gtk.ApplicationWindow):
+                 self.wnd._disable_source(ex.source, ex.temporary)
+ 
+ 
+-    class OptionsObserver(object):
++    class OptionsObserver:
+         def __init__(self, wnd):
+             self.wnd = wnd
+ 
+-- 
+2.17.1
+

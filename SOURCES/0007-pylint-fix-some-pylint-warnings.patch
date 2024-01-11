@@ -1,0 +1,158 @@
+From c8ae57408d8713f1b165f8da9f63bf55fb1427cc Mon Sep 17 00:00:00 2001
+From: Matej Habrnal <mhabrnal@redhat.com>
+Date: Thu, 31 May 2018 15:05:15 +0200
+Subject: [PATCH] pylint: fix some pylint warnings
+
+Signed-off-by: Matej Habrnal <mhabrnal@redhat.com>
+---
+ pylintrc                             |  2 +-
+ src/gnome_abrt/application.py        |  2 +-
+ src/gnome_abrt/dbus_problems.py      |  4 +---
+ src/gnome_abrt/directory_problems.py |  4 ++--
+ src/gnome_abrt/problems.py           | 32 ++++++++--------------------
+ src/gnome_abrt/views.py              |  8 ++-----
+ 6 files changed, 16 insertions(+), 36 deletions(-)
+
+diff --git a/pylintrc b/pylintrc
+index 934d7c0..0dc1c8e 100644
+--- a/pylintrc
++++ b/pylintrc
+@@ -155,7 +155,7 @@ ignore-imports=no
+ [FORMAT]
+ 
+ # Maximum number of characters on a single line.
+-max-line-length=80
++max-line-length=120
+ 
+ # Maximum number of lines in a module
+ max-module-lines=1000
+diff --git a/src/gnome_abrt/application.py b/src/gnome_abrt/application.py
+index 3504b03..927262a 100644
+--- a/src/gnome_abrt/application.py
++++ b/src/gnome_abrt/application.py
+@@ -16,7 +16,7 @@
+ ## Foundation, Inc., 51 Franklin Street, Suite 500, Boston, MA  02110-1335  USA
+ 
+ import os
+-import gnome_abrt.wrappers as wrappers
++from gnome_abrt import wrappers
+ 
+ class Application(object):
+ 
+diff --git a/src/gnome_abrt/dbus_problems.py b/src/gnome_abrt/dbus_problems.py
+index 89f092e..d6574aa 100644
+--- a/src/gnome_abrt/dbus_problems.py
++++ b/src/gnome_abrt/dbus_problems.py
+@@ -22,9 +22,7 @@ import traceback
+ import dbus
+ from dbus.mainloop.glib import DBusGMainLoop
+ 
+-import gnome_abrt.problems as problems
+-import gnome_abrt.config as config
+-import gnome_abrt.errors as errors
++from gnome_abrt import problems, config, errors
+ from gnome_abrt.l10n import _
+ 
+ BUS_NAME = 'org.freedesktop.problems'
+diff --git a/src/gnome_abrt/directory_problems.py b/src/gnome_abrt/directory_problems.py
+index 02a06ed..3ec7fe5 100644
+--- a/src/gnome_abrt/directory_problems.py
++++ b/src/gnome_abrt/directory_problems.py
+@@ -30,8 +30,8 @@ import pyinotify
+ from pyinotify import WatchManager, Notifier, ProcessEvent
+ 
+ # gnome-abrt
+-import gnome_abrt.problems as problems
+-import gnome_abrt.errors as errors
++from gnome_abrt import problems
++from gnome_abrt import errors
+ from gnome_abrt.l10n import _
+ 
+ class INOTIFYGlibSource(GLib.Source):
+diff --git a/src/gnome_abrt/problems.py b/src/gnome_abrt/problems.py
+index fbde9ac..05a3fa7 100644
+--- a/src/gnome_abrt/problems.py
++++ b/src/gnome_abrt/problems.py
+@@ -17,6 +17,7 @@
+ 
+ import datetime
+ import logging
++import re
+ 
+ # gnome-abrt
+ import gnome_abrt.url
+@@ -279,6 +280,7 @@ class Problem(object):
+ 
+     def get_submission(self):
+         if not self.submission:
++            reg = re.compile(r'^(?P<pfx>.*):\s*(?P<typ>\S*)=(?P<data>.*)')
+             self.submission = []
+             if self['reported_to']:
+                 # Most common type of line in reported_to file
+@@ -287,30 +289,14 @@ class Problem(object):
+                     if not line:
+                         continue
+ 
+-                    pfx_lst = []
+-                    i = 0
+-                    for i in range(0, len(line)):
+-                        if line[i] == ':':
+-                            break
+-                        pfx_lst.append(line[i])
+-
+-                    pfx = ''.join(pfx_lst)
+-                    i += 1
+-
+-                    for i in range(i, len(line)):
+-                        if line[i] != ' ':
+-                            break
+-
+-                    typ_lst = []
+-                    for i in range(i, len(line)):
+-                        if line[i] == '=':
+-                            break
+-                        typ_lst.append(line[i])
+-
+-                    typ = ''.join(typ_lst)
+-                    i += 1
++                    parsed = reg.match(line)
++                    if parsed:
++                        pfx = parsed.group('pfx')
++                        typ = parsed.group('typ')
++                        data = parsed.group('data')
++                    else:
++                        continue
+ 
+-                    data = line[i:]
+                     sbm = next((s for s in self.submission
+                                 if s.rtype == typ and s.name == pfx), None)
+ 
+diff --git a/src/gnome_abrt/views.py b/src/gnome_abrt/views.py
+index ec7b211..1b62515 100644
+--- a/src/gnome_abrt/views.py
++++ b/src/gnome_abrt/views.py
+@@ -40,12 +40,7 @@ from gi.repository import GLib
+ 
+ import humanize
+ 
+-import gnome_abrt.problems as problems
+-import gnome_abrt.config as config
+-import gnome_abrt.wrappers as wrappers
+-import gnome_abrt.errors as errors
+-import gnome_abrt.desktop as desktop
+-from gnome_abrt import GNOME_ABRT_UI_DIR
++from gnome_abrt import GNOME_ABRT_UI_DIR, problems, config, wrappers, errors, desktop
+ from gnome_abrt.tools import fancydate, smart_truncate, load_icon
+ from gnome_abrt.tools import set_icon_from_pixbuf_with_scale
+ from gnome_abrt.l10n import _, C_, GETTEXT_PROGNAME
+@@ -1075,6 +1070,7 @@ _("This problem has been reported, but a <i>Bugzilla</i> ticket has not"
+                     self._builder.lb_problems.select_row(problem_row)
+                     self._builder.menu_problem_item.popup(None, None,
+                             None, None, data.button, data.time)
++        return None
+ 
+     def get_box_header_left_offset(self):
+         # Returns the offset of box_header_left relative to the main paned
+-- 
+2.17.1
+
